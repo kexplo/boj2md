@@ -9,9 +9,16 @@ def requirements(filename):
         return [x.strip() for x in f.readlines() if x.strip()]
 
 
+def readme():
+    with open('README.md', 'r') as f:
+        return f.read()
+
+
 setup(name='boj2md',
-      version='0.0.1',
+      version='0.0.2',
       description='Parse Baekjoon Online Judge Problem to Markdown',
+      long_description=readme(),
+      long_description_content_type='text/markdown',
       author='Chanwoong Kim',
       author_email='me@chanwoong.kim',
       url='https://github.com/kexplo/boj2md',
