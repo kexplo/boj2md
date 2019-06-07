@@ -11,10 +11,10 @@ def requirements(filename):
 
 setup(name='boj2md',
       version='0.0.1',
-      description='boj2md',
+      description='Parse Baekjoon Online Judge Problem to Markdown',
       author='Chanwoong Kim',
       author_email='me@chanwoong.kim',
-      url='',
+      url='https://github.com/kexplo/boj2md',
       packages=find_packages(),
       entry_points={
           'console_scripts': ['boj2md = boj2md:main']
