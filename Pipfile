@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8-import-order = "*"
+flake8 = "*"
+pyflakes = "*"
+mypy = "*"
+
+[packages]
+requests = "*"
+bs4 = "*"
+
+[requires]
+python_version = "3.7"
