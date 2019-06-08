@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from dataclasses import dataclass, field
 from itertools import zip_longest
 import sys
@@ -72,8 +70,6 @@ def pair_iter(iterable: Iterable[Tag]) -> Iterable[Tuple[Tag, Tag]]:
 def parse_problem(html_doc: str) -> ParsedProblem:
     soup = BeautifulSoup(html_doc, 'html.parser')
     title = parse_single_element(soup, '#problem_title')
-    # desc = parse_single_element(soup, '#problem_description')
-    # TODO: parse li tags in desc
     desc = parse_multi_elements(soup, '#problem_description')
     _input = parse_multi_elements(soup, '#problem_input')
     output = parse_multi_elements(soup, '#problem_output')
