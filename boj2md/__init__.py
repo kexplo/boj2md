@@ -13,7 +13,7 @@ BOJ_PROBLEM_URL_TPL = 'https://www.acmicpc.net/problem/{}'
 
 
 @dataclass
-class ParsedProblem:
+class Problem:
     title: str
     desc: str
     input: str
@@ -67,7 +67,7 @@ def pair_iter(iterable: Iterable[Tag]) -> Iterable[Tuple[Tag, Tag]]:
     return zip_longest(*([iter(iterable)]*2))
 
 
-def parse_problem(html_doc: str) -> ParsedProblem:
+def parse_problem(html_doc: str) -> Problem:
     soup = BeautifulSoup(html_doc, 'html.parser')
     title = parse_single_element(soup, '#problem_title')
     desc = parse_multi_elements(soup, '#problem_description')
@@ -77,10 +77,10 @@ def parse_problem(html_doc: str) -> ParsedProblem:
     samples = []
     for sample_input, sample_output in pair_iter(soup.select('.sampledata')):
         samples.append((sample_input.text.strip(), sample_output.text.strip()))
-    return ParsedProblem(title, desc, _input, output, samples)
+    return Problem(title, desc, _input, output, samples)
 
 
-def to_markdown(parsed_problem: ParsedProblem, problem_id: str) -> str:
+def to_markdown(problem: Problem, problem_id: str) -> str:
     def samples_to_markdown(samples: List[Tuple[str, str]]) -> str:
         template = dedent('''\
                           ## 예제 입력 {index}
@@ -119,12 +119,12 @@ def to_markdown(parsed_problem: ParsedProblem, problem_id: str) -> str:
         {samples}
         ''')
     return t.format(
-        title=parsed_problem.title,
+        title=problem.title,
         url=BOJ_PROBLEM_URL_TPL.format(problem_id),
-        desc=parsed_problem.desc,
-        input=parsed_problem.input,
-        output=parsed_problem.output,
-        samples=samples_to_markdown(parsed_problem.samples)
+        desc=problem.desc,
+        input=problem.input,
+        output=problem.output,
+        samples=samples_to_markdown(problem.samples)
     )
 
 
