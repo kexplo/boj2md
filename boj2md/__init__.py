@@ -31,14 +31,10 @@ def fetch_problem_html(problem_id: str) -> str:
     return r.text
 
 
-def parse_single_element(bs: BeautifulSoup, selector: str) -> str:
-    return bs.select(selector)[0].text.strip()
-
-
-def parse_multi_elements(bs: BeautifulSoup, selector: str) -> str:
+def html_to_text(bs: BeautifulSoup, selector: str) -> str:
     def parse_tag(tag: Union[NavigableString, Tag]) -> Optional[str]:
         if not tag.name:  # if tag is NavigableString
-            return None
+            return str(tag).strip() or None
         if tag.name == 'p':
             return '{}\n'.format(tag.text)
         elif tag.name == 'ul':
@@ -69,10 +65,10 @@ def pair_iter(iterable: Iterable[Tag]) -> Iterable[Tuple[Tag, Tag]]:
 
 def parse_problem(html_doc: str) -> Problem:
     soup = BeautifulSoup(html_doc, 'html.parser')
-    title = parse_single_element(soup, '#problem_title')
-    desc = parse_multi_elements(soup, '#problem_description')
-    _input = parse_multi_elements(soup, '#problem_input')
-    output = parse_multi_elements(soup, '#problem_output')
+    title = html_to_text(soup, '#problem_title')
+    desc = html_to_text(soup, '#problem_description')
+    _input = html_to_text(soup, '#problem_input')
+    output = html_to_text(soup, '#problem_output')
 
     samples = []
     for sample_input, sample_output in pair_iter(soup.select('.sampledata')):
